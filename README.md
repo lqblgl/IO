@@ -8,9 +8,6 @@ Acceptor：处理客户端连接事件
 
 Handler：处理非阻塞的任务
 
-流程图
-为了更好的理解主从reactor主从线程模型，我简单实现了一个demo，大体执行流程如下。
-
 关键类：
 BossGroup：该类只对连接事件感兴趣，它会监听一个端口 ,如果有请求进来，它会进行连接，后续的读写操作都会由TCPSubReactor来管理
 Acceptor：该类的作用是管理多个TCPSubReactor，BossGroup要把读写请求委托给TCPSubReactor处理，必须要通过Acceptor类，因此，Acceptor类是BossGroup中的Selectionkey的一个附加对象，以便在有连接请求过来时直接调用Acceptor的run方法将后续操作直接派发给TcpSubReactor
