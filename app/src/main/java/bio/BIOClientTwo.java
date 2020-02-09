@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Date;
 
-public class BIOClient {
+public class BIOClientTwo {
     public static void main(String[] args) {
         new Thread(new Runnable() {
             @Override
@@ -12,7 +12,7 @@ public class BIOClient {
                 try {
                     Socket socket = new Socket("127.0.0.1",8080);
                     while (true){
-                        socket.getOutputStream().write((new Date()+"哈喽").getBytes());
+                        socket.getOutputStream().write((new Date()+"哈喽2").getBytes());
                         socket.getOutputStream().flush();
                         Thread.sleep(1000);
                     }
