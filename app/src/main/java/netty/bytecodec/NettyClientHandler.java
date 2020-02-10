@@ -6,6 +6,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.util.ReferenceCountUtil;
 
 public class NettyClientHandler extends ChannelInboundHandlerAdapter {
     private ByteBuf firstMessage;
@@ -22,9 +23,13 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg)
             throws Exception {
-        ByteBuf buf = (ByteBuf) msg;
-        String rev = getMessage(buf);
-        System.out.println("客户端收到服务器消息:" + rev);
+        try {
+            ByteBuf buf = (ByteBuf) msg;
+            String rev = getMessage(buf);
+            System.out.println("客户端收到服务器消息:" + rev);
+        }finally {
+            ReferenceCountUtil.release(msg);//没有写数据需要释放资源
+        }
     }
 
     private String getMessage(ByteBuf buf) {

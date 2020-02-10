@@ -18,8 +18,11 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
             System.out.println("服务器接收到客户端消息：" + recieved);
 
             try {
+                //具有写数据，已释放资源
                 ctx.writeAndFlush(getSendByteBuf("你好，客户端"));
                 System.out.println("服务器回复消息：你好，客户端");
+
+//                ctx.writeAndFlush(getSendByteBuf("你好，客户端")).addListener(ChannelFutureListener.CLOSE);//客户端接收到数据之后关闭连接，必须在服务端操作；类似短链接，一次读写完成之后关闭连接
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }

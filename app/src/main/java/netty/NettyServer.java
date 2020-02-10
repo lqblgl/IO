@@ -94,9 +94,11 @@ public class NettyServer {
             serverBootstrap
                     .group(boos, worker)
                     .channel(NioServerSocketChannel.class)
-                    .option(ChannelOption.SO_BACKLOG, 1024)// 连接数
-                    .childOption(ChannelOption.TCP_NODELAY, true)// 不延迟，消息立即发送
-                    .childOption(ChannelOption.SO_KEEPALIVE, true)// 长连接
+                    .option(ChannelOption.TCP_NODELAY, true)// 不延迟，消息立即发送
+                    .option(ChannelOption.SO_BACKLOG, 1024)// 设置tcp缓冲区
+                    .option(ChannelOption.SO_SNDBUF, 1024)// 设置发送缓冲区大小
+                    .option(ChannelOption.SO_RCVBUF, 1024)// 设置接收缓冲区大小
+                    .option(ChannelOption.SO_KEEPALIVE, true)// 保持连接
                     .attr(AttributeKey.newInstance("serverName"), "nettyServer")
                     .childHandler(new ChannelInitializer<NioSocketChannel>() {
                         @Override
